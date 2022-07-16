@@ -12,7 +12,7 @@ const routes: Routes = [
     loadChildren: () => import('./pages/login/login.module').then( m => m.LoginPageModule)
   },
   {
-  path: '***',
+  path: '**',
   redirectTo: 'login',
   pathMatch:'full'
   }

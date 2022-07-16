@@ -16,4 +16,4 @@ class Student {
 
 const student = new Student('Amanda', 16, false);
 
-student.studentFormattedData()
+student.studentFormattedData();

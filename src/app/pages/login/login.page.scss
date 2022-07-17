@@ -7,9 +7,14 @@
     position: absolute;
     top: -10px;
     left: 0;
-    width: 100vw;
+    width: 120vw;
     height: 100vh;
     opacity: 0.6;
+
+    @media screen and (max-width: 380px) {
+        top: -110px;
+    }
+
 }
 .container{
     display: flex;
@@ -25,6 +30,10 @@
     img{
         width: 22%;
         height: 30%;
+
+        @media screen and (min-width:850px){
+            width: 10%;
+        }
     }
    
     &--inputs{
@@ -73,4 +82,13 @@
             text-decoration: none;
         }
     }
+}
+
+.disable{
+    opacity: .5;
+    pointer-events: none;
+}
+
+app-half-circle-spinner{
+    margin-left: 1rem;
 }

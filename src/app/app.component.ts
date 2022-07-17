@@ -12,9 +12,10 @@ export class AppComponent implements OnDestroy{
   constructor(
     private readonly router: Router,
   ) {
-    router.events
+    this.routeSubscription = router.events
       .pipe(filter((event) => event instanceof NavigationEnd))
       .subscribe((route: NavigationEnd) => {
+        console.log(route.url);
 
         if(!this.routesWithoutNavbar.includes(route.url)){
           this.canShowNavbar = true;

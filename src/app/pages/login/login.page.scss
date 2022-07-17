@@ -7,13 +7,10 @@
     position: absolute;
     top: -10px;
     left: 0;
-    width: 120vw;
+    width: 100vw;
     height: 100vh;
-    opacity: 0.6;
-
-    @media screen and (max-width: 380px) {
-        top: -110px;
-    }
+    opacity: 0.3;
+    object-fit: cover;
 }
 .container{
     display: flex;

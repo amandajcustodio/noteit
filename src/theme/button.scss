@@ -1,0 +1,12 @@
+.button{
+    border-radius: 20px;
+    font-style: italic;
+    font-size: .8rem;
+    width: 80%;
+    height: 3.5rem;
+    margin-top: 2rem;
+    --border-radius: 20px;
+    --backgroud-color: rgb(45,159,219);
+    text-transform: capitalize;
+    --box-shadow: none;
+}

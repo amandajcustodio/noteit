@@ -10,7 +10,7 @@ import { HelperService } from 'src/app/services/helper.service';
 export class RegistrationPage{
 
   constructor(
-
+    private readonly helper: HelperService,
   ) { }
 
   public regsPayload: RegistrationPayload ={ 
@@ -28,6 +28,19 @@ export class RegistrationPage{
     return;
 
     this.isLoading = true;
+
+    await this.helper.showToast('Gerando conta...');
+
+    await this.helper.showAlert('Pergunta', [
+      {
+        text: 'Confirmar',
+        handler: () => console.log('Confirmar'),
+      },
+      {
+        text: 'Cancelar',
+        handler: () => console.log('Cancelar')
+      }
+    ])
 
     console.log(this.regsPayload);
   }

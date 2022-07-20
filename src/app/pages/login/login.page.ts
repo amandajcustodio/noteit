@@ -27,19 +27,19 @@ export class LoginPage{
     this.isLoading = true;
 
     // toast (mensagem)
-    await this.helper.showToast('Carregando...')
+    await this.helper.showToast('Carregando...');
 
     // alert
     await this.helper.showAlert('Hello', [
       {
         text: 'Ok',
-        handler: () => console.log('Ok!')
+        handler: () => console.log('Ok!'),
       },
       {
         text: 'Outro',
-        handler: () => console.log('Outro!')
+        handler: () => console.log('Outro!'),
       }
-    ])
+    ]);
 
     console.log(this.loginPayload);
   }

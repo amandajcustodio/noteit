@@ -20,7 +20,7 @@
       <input #password (keydown.enter)="confpassword.focus()" class="input" type="password" [(ngModel)]="regsPayload.password">
 
       <span>Confirme a Senha*</span>
-      <input #confpassword (keydown.enter)="create()" class="input" type="password" [(ngModel)]="regsPayload.confpassword">
+      <input #confpassword (keydown.enter)="newUser()" class="input" type="password" [(ngModel)]="regsPayload.confpassword">
     </div>
 
     <div class="paragrafo">
@@ -28,8 +28,8 @@
       <p>Ao registrar-me, concordo com os termos de uso a Política de Privacidade do aplicativo.</p>
     </div>
 
-    <ion-button #create [class.disable]="!canCreate()" class="button" (click)="newUser()">
-      {{ isLoading ? 'Carregando' : 'Criar conta'}}
+    <ion-button [class.disable]="!canCreate()" class="button" (click)="newUser()">
+      {{ isLoading ? 'Gerando conta' : 'Criar conta'}}
       <app-half-circle-spinner 
         *ngIf="isLoading"
         [animationDuration]="1000"

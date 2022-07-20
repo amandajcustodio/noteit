@@ -12,6 +12,7 @@
 /* My CSS's */
 @import url(theme/button.scss);
 @import url(theme/input.scss);
+@import url(theme/first-bg.scss);
 
 /* Core CSS required for Ionic components to work properly */
 @import "~@ionic/angular/css/core.css";
@@ -42,6 +43,11 @@
     font-family: 'OpenSans';
     src: url('assets/fonts/OpenSans-Regular.ttf');
     font-weight: 400;
+}
+@font-face {
+    font-family: 'OpenSans';
+    src: url('assets/fonts/OpenSans-SemiBold.ttf');
+    font-weight: 500;
 }
 @font-face {
     font-family: 'OpenSans';

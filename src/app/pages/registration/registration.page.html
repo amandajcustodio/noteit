@@ -3,25 +3,24 @@
   <img class="detail" src="assets/img/grade.svg">
 
   <div class="container">
-      <a href="../login/login.page.html"><img class="icon" src="assets/img/arrow-regs.svg"></a>
+      <a href="/login"><img class="icon" src="assets/img/arrow-regs.svg"></a>
       <app-logo src="assets/img/logo.svg" [full]="false" (onClick)="logoClick($event)"></app-logo>
-    
 
     <div class="container--inputs">
       <span>Nome completo*</span>
-      <input (keydown.enter)="email.focus()" class="input" type="text">
+      <input (keydown.enter)="email.focus()" class="input" type="text" [(ngModel)]="regsPayload.name">
 
       <span>E-mail*</span>
-      <input #email (keydown.enter)="confemail.focus()" class="input" type="text">
+      <input #email (keydown.enter)="confemail.focus()" class="input" type="text" [(ngModel)]="regsPayload.email">
 
       <span>Confirme o E-mail*</span>
-      <input #confemail (keydown.enter)="password.focus()" class="input" type="text">
+      <input #confemail (keydown.enter)="password.focus()" class="input" type="text" [(ngModel)]="regsPayload.confemail">
 
       <span>Senha*</span>
-      <input #password (keydown.enter)="confpassword.focus()" class="input" type="password">
+      <input #password (keydown.enter)="confpassword.focus()" class="input" type="password" [(ngModel)]="regsPayload.password">
 
       <span>Confirme a Senha*</span>
-      <input #confpassword (keydown.enter)="create()" class="input" type="password">
+      <input #confpassword (keydown.enter)="create()" class="input" type="password" [(ngModel)]="regsPayload.confpassword">
     </div>
 
     <div class="paragrafo">
@@ -29,6 +28,14 @@
       <p>Ao registrar-me, concordo com os termos de uso a Política de Privacidade do aplicativo.</p>
     </div>
 
-    <ion-button class="button">Criar conta</ion-button>
+    <ion-button #create [class.disable]="!canCreate()" class="button" (click)="newUser()">
+      {{ isLoading ? 'Carregando' : 'Criar conta'}}
+      <app-half-circle-spinner 
+        *ngIf="isLoading"
+        [animationDuration]="1000"
+        [size]="30"
+        [color]="'#fff'">
+      </app-half-circle-spinner>
+    </ion-button>
   </div>
 </div>

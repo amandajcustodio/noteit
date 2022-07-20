@@ -29,7 +29,7 @@ export class AppComponent implements OnDestroy{
   public canShowNavbar: boolean = false;
 
   // Lista de páginas em que deve (ou não) acontecer algo
-  public routesWithoutNavbar: string[] = ['/login'];
+  public routesWithoutNavbar: string[] = ['/login', '/registration'];
 
   public routeSubscription: Subscription;
 

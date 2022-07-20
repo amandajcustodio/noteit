@@ -1,0 +1,32 @@
+<div class="registration">
+  <img class="background" src="assets/img/background.png">
+  <img class="detail" src="assets/img/grade.svg">
+
+  <div class="container">
+      <a href="../login/login.page.html"><img class="icon" src="assets/img/arrow-regs.svg"></a>
+      <app-logo src="assets/img/logo.svg" [full]="false" (onClick)="logoClick($event)"></app-logo>
+    
+
+    <div class="container--inputs">
+      <span>Nome completo*</span>
+      <input (keydown.enter)="email.focus()" class="input" type="text">
+
+      <span>E-mail*</span>
+      <input #email (keydown.enter)="confemail.focus()" class="input" type="text">
+
+      <span>Confirme o E-mail*</span>
+      <input #confemail (keydown.enter)="password.focus()" class="input" type="text">
+
+      <span>Senha*</span>
+      <input #password (keydown.enter)="confpassword.focus()" class="input" type="password">
+
+      <span>Confirme a Senha*</span>
+      <input #confpassword (keydown.enter)="create()" class="input" type="password">
+    </div>
+
+    <p>*Campos obrigatórios</p>
+    <p>Ao registrar-me, concordo com os termos de uso a Política de Privacidade do aplicativo.</p>
+
+    <ion-button class="button">Criar conta</ion-button>
+  </div>
+</div>

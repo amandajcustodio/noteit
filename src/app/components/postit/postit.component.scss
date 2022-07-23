@@ -1,0 +1,22 @@
+.postit{
+    width: 43vw;
+    height: 35vh;
+    background-color: #F77D60;
+    padding: 0 1rem;
+
+    overflow: hidden;
+    color: #343434;
+
+    h6{
+        font-size: .9rem; 
+        text-align: center;
+    } 
+    p{
+        font-size: .8rem;
+        margin-bottom: 1rem;
+
+        max-height: 25vh;
+        overflow: hidden;
+    }
+}
+

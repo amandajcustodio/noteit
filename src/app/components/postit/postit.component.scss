@@ -1,10 +1,7 @@
 .postit{
     width: 43vw;
     height: 35vh;
-    background-color: #F77D60;
-    padding: 0 1rem;
-
-    overflow: hidden;
+    padding: 1rem;
     color: #343434;
 
     h6{
@@ -15,8 +12,12 @@
         font-size: .8rem;
         margin-bottom: 1rem;
 
-        max-height: 25vh;
         overflow: hidden;
+        text-overflow: ellipsis;
+        display: -webkit-box;
+        -webkit-line-clamp: 10;
+        line-clamp: 10;;
+        -webkit-box-orient: vertical;
     }
 }
 

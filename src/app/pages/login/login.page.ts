@@ -1,6 +1,7 @@
 import { Component} from '@angular/core';
 import { LoginPayload } from 'src/app/models/payloads/login.payload';
 import { HelperService } from 'src/app/services/helper.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -11,6 +12,7 @@ export class LoginPage{
 
   constructor(
     private readonly helper: HelperService,
+    private readonly router: Router,
   ) { }
 
   public loginPayload: LoginPayload = {
@@ -42,6 +44,7 @@ export class LoginPage{
     ]);
 
     console.log(this.loginPayload);
+    await this.router.navigate(['/home']);
   }
 
   public canLogin(): boolean{

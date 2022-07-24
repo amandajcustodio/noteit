@@ -7,7 +7,8 @@ import { IonicModule } from '@ionic/angular';
 import { HomePageRoutingModule } from './home-routing.module';
 
 import { HomePage } from './home.page';
-import { PostitModule } from 'src/app/components/postit/postit.module';
+import { PostItModule } from 'src/app/components/postit/postit.module';
+import { PostItModalModule } from 'src/app/modals/postit-modal/postit-modal.module';
 
 @NgModule({
   imports: [
@@ -15,7 +16,8 @@ import { PostitModule } from 'src/app/components/postit/postit.module';
     FormsModule,
     IonicModule,
     HomePageRoutingModule,
-    PostitModule
+    PostItModule,
+    PostItModalModule
   ],
   declarations: [HomePage]
 })

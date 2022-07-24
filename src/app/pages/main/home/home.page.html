@@ -1,32 +1,35 @@
 <div class="home">
-  <header>
-    <img src="assets/img/logo.svg" alt="Logo">
-  </header>
-  <main>
-    <ng-container *ngFor="let post of postitArray">
-      <app-postit (postitSelected)="printPostit($event)" [postit]="post"></app-postit>
-    </ng-container>
-    
-  </main>
+
+    <header>
+      <img src="assets/img/logo.svg" alt="Logo">
+    </header>
   
-  <div class="home--new-postit">
-    <div class="home--new-postit--item" 
-    (click)="consoleColor(postitColorEnum.RED)"
-    [style.background-color]="postitColorEnum.RED"></div>
-    <div class="home--new-postit--item" 
-    (click)="consoleColor(postitColorEnum.PINK)"
-    [style.background-color]="postitColorEnum.PINK"></div>
-    <div class="home--new-postit--item" 
-    (click)="consoleColor(postitColorEnum.GREEN)"
-    [style.background-color]="postitColorEnum.GREEN"></div>
-    <div class="home--new-postit--item" 
-    (click)="consoleColor(postitColorEnum.YELLOW)"
-    [style.background-color]="postitColorEnum.YELLOW"></div>
-    <div class="home--new-postit--item" 
-    (click)="consoleColor(postitColorEnum.BLUE)"
-    [style.background-color]="postitColorEnum.BLUE"></div>
-    <div class="home--new-postit--item" 
-    (click)="consoleColor(postitColorEnum.PURPLE)"
-    [style.background-color]="postitColorEnum.PURPLE"></div>
+    <main>
+      <ng-container *ngFor="let post of postItArray">
+        <app-postit (postItSelected)="printPostIt($event)" 
+                    [postIt]="post"
+                    (click)="openPostModal(post)"></app-postit>
+      </ng-container>
+    </main>
+  
+    <div class="home--new-postit">
+      <div class="home--new-postit--item" 
+          (click)="openNewPostModal(postItColorEnum.RED)"
+          [style.background-color]="postItColorEnum.RED"></div>
+      <div class="home--new-postit--item" 
+          (click)="openNewPostModal(postItColorEnum.PINK)"
+          [style.background-color]="postItColorEnum.PINK"></div>
+      <div class="home--new-postit--item" 
+          (click)="openNewPostModal(postItColorEnum.GREEN)"
+          [style.background-color]="postItColorEnum.GREEN"></div>
+      <div class="home--new-postit--item" 
+          (click)="openNewPostModal(postItColorEnum.YELLOW)"
+          [style.background-color]="postItColorEnum.YELLOW"></div>
+      <div class="home--new-postit--item" 
+          (click)="openNewPostModal(postItColorEnum.BLUE)"
+          [style.background-color]="postItColorEnum.BLUE"></div>
+      <div class="home--new-postit--item" 
+          (click)="openNewPostModal(postItColorEnum.PURPLE)"
+          [style.background-color]="postItColorEnum.PURPLE"></div>
+    </div>
   </div>
-</div>

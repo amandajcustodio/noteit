@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { PostitColorEnum } from 'src/app/models/enums/postit-color';
-import { PostitProxy } from 'src/app/models/proxies/postit.proxy';
+import { ModalController } from '@ionic/angular';
+import { PostitModalComponent } from 'src/app/modals/postit-modal/postit-modal.component';
+import { PostItColorEnum } from 'src/app/models/enums/postit-color.enum';
+import { PostItProxy } from 'src/app/models/proxies/postit.proxy';
 
 @Component({
   selector: 'app-home',
@@ -9,59 +11,104 @@ import { PostitProxy } from 'src/app/models/proxies/postit.proxy';
 })
 export class HomePage implements OnInit {
 
-  constructor() { }
+  constructor(
+    public modalController: ModalController
+  ) { }
 
-  public postitArray: PostitProxy[] = [
+  public postItArray: PostItProxy[] = [
+    {
+      id: 0,
+      title: 'Título do post0',
+      annotation: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse quis imperdiet sem. Suspendisse potenti. Curabitur eget nibh sed arcu cursus venenatis.',
+      color: PostItColorEnum.GREEN
+    },
     {
       id: 1,
-      title: "Título do Post1",
-      annotation: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Numquam nulla cumque libero, atque saepe quas.Lorem ipsum dolor sit amet, consectetur adipisicing elit. Numquam nulla cumque libero, atque saepe quas.",
-      color: PostitColorEnum.RED,
+      title: 'Título do post1',
+      annotation: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse quis imperdiet sem. Suspendisse potenti. Curabitur eget nibh sed arcu cursus venenatis.',
+      color: PostItColorEnum.YELLOW
     },
     {
       id: 2,
-      title: "Título do Post2",
-      annotation: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Numquam nulla cumque libero, atque saepe quas.Lorem ipsum dolor sit amet, consectetur adipisicing elit. Numquam nulla cumque libero, atque saepe quas.",
-      color: PostitColorEnum.PINK,
-    }, 
+      title: 'Título do post2',
+      annotation: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse quis imperdiet sem. Suspendisse potenti. Curabitur eget nibh sed arcu cursus venenatis.',
+      color: PostItColorEnum.BLUE
+    },
     {
       id: 3,
-      title: "Título do Post3",
-      annotation: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Numquam nulla cumque libero, atque saepe quas.Lorem ipsum dolor sit amet, consectetur adipisicing elit. Numquam nulla cumque libero, atque saepe quas.",
-      color: PostitColorEnum.GREEN,
-    }, 
+      title: 'Título do post3',
+      annotation: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse quis imperdiet sem. Suspendisse potenti. Curabitur eget nibh sed arcu cursus venenatis.',
+      color: PostItColorEnum.PURPLE
+    },
     {
       id: 4,
-      title: 'Título do Post4',
+      title: 'Título do post4',
       annotation: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse quis imperdiet sem. Suspendisse potenti. Curabitur eget nibh sed arcu cursus venenatis.',
-      color: PostitColorEnum.YELLOW,
-    }, 
+      color: PostItColorEnum.RED
+    },
     {
       id: 5,
-      title: "Título do Post5",
-      annotation: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Numquam nulla cumque libero, atque saepe quas.Lorem ipsum dolor sit amet, consectetur adipisicing elit. Numquam nulla cumque libero, atque saepe quas.",
-      color: PostitColorEnum.BLUE,
-    },
-    {
-      id: 6,
-      title: "Título do Post6",
-      annotation: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Numquam nulla cumque libero, atque saepe quas.Lorem ipsum dolor sit amet, consectetur adipisicing elit. Numquam nulla cumque libero, atque saepe quas.Lorem ipsum dolor sit amet, consectetur adipisicing elit. Numquam nulla cumque libero, atque saepe quas.Lorem ipsum dolor sit amet, consectetur adipisicing elit. Numquam nulla cumque libero, atque saepe quas.Lorem ipsum dolor sit amet, consectetur adipisicing elit. Numquam nulla cumque libero, atque saepe quas.Lorem ipsum dolor sit amet, consectetur adipisicing elit. Numquam nulla cumque libero, atque saepe quas.",
-      color: PostitColorEnum.PURPLE,
-    },
-  ]
+      title: 'Título do post4',
+      annotation: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse quis imperdiet sem. Suspendisse potenti. Curabitur eget nibh sed arcu cursus venenatis.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse quis imperdiet sem. Suspendisse potenti. Curabitur eget nibh sed arcu cursus venenatis.',
+      color: PostItColorEnum.PINK
+    }
+  ];
 
-  public postitColorEnum: typeof PostitColorEnum = PostitColorEnum;
-
+  public postItColorEnum: typeof PostItColorEnum = PostItColorEnum;
 
   ngOnInit() {
-    console.log('postitColorEnum', this.postitColorEnum);
+    console.log('postItColorEnum', this.postItColorEnum);
   }
 
   public consoleColor(color: string): void{
-    console.log("color", color)
+    console.log("color", color);
   }
 
-  public printPostit(event: PostitProxy): void {
+  public printPostIt(event: PostItProxy): void {
     console.log('postit', event);
   }
+
+  public async openPostModal(postIt: PostItProxy): Promise<void> {
+
+    const modal = await this.modalController.create({
+      component: PostitModalComponent,
+      cssClass: 'background-modal',
+      backdropDismiss: true,
+      componentProps: {
+        postIt
+      }
+    });
+
+    await modal.present();
+
+    modal.onDidDismiss().then(async ({ data: postIt }) => {
+      // let index = this.postItArray.findIndex(post => post.id == postIt.id);
+      // this.postItArray[index] = postIt;
+      console.log('postIt', postIt);
+      console.log('postItArray', this.postItArray);
+    });
+  }
+
+  public async openNewPostModal(color: string): Promise<void> {
+
+    const modal = await this.modalController.create({
+      component: PostitModalComponent,
+      cssClass: 'background-modal',
+      backdropDismiss: true,
+      componentProps: {
+        color,
+        create: true
+      }
+    });
+
+    await modal.present();
+
+    modal.onDidDismiss().then(async ({ data: postIt }) => {
+      if (postIt) {
+        this.postItArray.push(postIt);
+      }
+    });
+
+  }
+
 }

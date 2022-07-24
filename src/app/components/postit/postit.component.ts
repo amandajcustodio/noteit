@@ -1,23 +1,23 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
-import { PostitProxy } from 'src/app/models/proxies/postit.proxy';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { PostItProxy } from 'src/app/models/proxies/postit.proxy';
 
 @Component({
   selector: 'app-postit',
   templateUrl: './postit.component.html',
   styleUrls: ['./postit.component.scss'],
 })
-export class PostitComponent{
+export class PostitComponent {
 
   constructor() { }
 
   @Input()
-  public postit: PostitProxy;
+  public postIt: PostItProxy;
 
   @Output()
-  public postitSelected: EventEmitter<PostitProxy> = new EventEmitter<PostitProxy>();
+  public postItSelected: EventEmitter<PostItProxy> = new EventEmitter<PostItProxy>();
 
-  public emitPost(): void{
-    this.postitSelected.emit(this.postit)
+  public emitPost(): void {
+    this.postItSelected.emit(this.postIt)
   }
 
 }

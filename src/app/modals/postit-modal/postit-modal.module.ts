@@ -1,19 +1,21 @@
 import { CommonModule } from "@angular/common";
 import { NgModule } from "@angular/core";
+import { FormsModule } from "@angular/forms";
 import { IonicModule } from "@ionic/angular";
-import { PostitComponent } from "./postit.component";
+import { PostitModalComponent } from "./postit-modal.component";
 
 @NgModule({
     declarations: [
-        PostitComponent
+        PostitModalComponent
     ],
     imports: [
         CommonModule,
-        IonicModule
+        IonicModule,
+        FormsModule
     ],
     exports: [
-        PostitComponent
+        PostitModalComponent
     ],
 })
 
-export class PostItModule { }
+export class PostItModalModule { }

@@ -1,12 +1,12 @@
 <div class="feed-detail">
   <img src="assets\img\background-feed.svg" class="detail">
   <header>
-    <img src="" class="go-back">
+    <img src="assets\img\goback.png" class="go-back"  [routerLink]="['/feed']">
     <img src="assets\img\logo-feed.svg" class="noteAndFriends">
   </header>
 
   <main>
-    <div class="feed-item" [style.background-color]="postIt.color">
+    <div *ngIf="postIt" class="feed-item" [style.background-color]="postIt.color">
       <header>
         <ion-avatar class="user--avatar">
           <img src="assets\img\icon1.jpg" />
@@ -35,7 +35,7 @@
           </ng-container>
         </div>
       </main>
-      <footer>
+      <footer [style.background-color]="postIt.color">
         <div class="comment--section">
           <input type="text" placeholder="Inserir comentário">
           <button type="button"> Publicar </button>

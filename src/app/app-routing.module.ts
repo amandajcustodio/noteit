@@ -26,12 +26,17 @@ const routes: Routes = [
   {
     path: 'registration',
     loadChildren: () => import('./pages/registration/registration.module').then( m => m.RegistrationPageModule)
+  }, 
+  {
+    path: 'feed/:id',
+    loadChildren: () => import('./pages/main/feed-detail/feed-detail.module').then( m => m.FeedDetailPageModule)
   },
   {
     path: '**',
     redirectTo: 'login',
     pathMatch:'full'
   },
+
 ];
 @NgModule({
   imports: [

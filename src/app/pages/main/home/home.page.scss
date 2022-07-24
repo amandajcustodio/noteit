@@ -1,4 +1,14 @@
 .home{
+
+    .detail {
+        position: absolute;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        object-fit: cover;
+        z-index: -1;
+    }
+    
     header{
     width: 100%;
     display: flex;

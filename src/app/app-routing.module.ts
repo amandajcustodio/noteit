@@ -24,10 +24,6 @@ const routes: Routes = [
     loadChildren: () => import('./pages/main/profile/profile.module').then( m => m.ProfilePageModule)
   },
   {
-    path: 'registration',
-    loadChildren: () => import('./pages/registration/registration.module').then( m => m.RegistrationPageModule)
-  }, 
-  {
     path: 'feed/:id',
     loadChildren: () => import('./pages/main/feed-detail/feed-detail.module').then( m => m.FeedDetailPageModule)
   },

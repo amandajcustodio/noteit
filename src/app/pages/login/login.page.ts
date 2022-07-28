@@ -1,5 +1,6 @@
 import { Component} from '@angular/core';
 import { LoginPayload } from 'src/app/models/payloads/login.payload';
+import { RegistrationPayload } from 'src/app/models/payloads/registration.payload';
 import { HelperService } from 'src/app/services/helper.service';
 import { Router } from '@angular/router';
 
@@ -20,7 +21,17 @@ export class LoginPage{
     password: '',
   }
 
+  public regsPayload: RegistrationPayload ={ 
+    name: '',
+    email: '',
+    confemail: '',
+    password: '',
+    confpassword: '',
+  } 
+
   public isLoading: boolean = false;
+
+  public isSigning: boolean = false;
 
   public async login(): Promise<void>{
     if(!this.canLogin())
@@ -57,6 +68,40 @@ export class LoginPage{
     return false
   }
 
+  public async newUser(): Promise<void>{
+    if(!this.canCreate())
+    return;
+
+    this.isLoading = true;
+
+    await this.helper.showToast('Gerando conta...');
+
+    await this.helper.showAlert('Pergunta', [
+      {
+        text: 'Confirmar',
+        handler: () => console.log('Confirmar'),
+      },
+      {
+        text: 'Cancelar',
+        handler: () => console.log('Cancelar')
+      }
+    ])
+
+    console.log(this.regsPayload);
+  }
+
+  public canCreate(): boolean{
+    const regex = new RegExp('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$');
+
+    const emailIsValid = regex.test(this.regsPayload.email);
+
+    if(emailIsValid && this.regsPayload.password.length >= 6){
+      if(this.regsPayload.email === this.regsPayload.confemail && this.regsPayload.password === this.regsPayload.confpassword)return true;
+    }
+
+    return false
+  }
+  
   public logoClick($event: boolean): void {
     console.log($event);
   }

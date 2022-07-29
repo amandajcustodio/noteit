@@ -30,7 +30,7 @@ export class FeedDetailPage implements OnInit {
     },
     {
       id: 1,
-      title: 'Título do post1',
+      title: 'Título do Post1',
       annotation: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse quis imperdiet sem. Suspendisse potenti. Curabitur eget nibh sed arcu cursus venenatis.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse quis imperdiet sem. Suspendisse potenti. Curabitur eget nibh sed arcu cursus venenatis.',
       color: PostItColorEnum.YELLOW,
       comments: [],

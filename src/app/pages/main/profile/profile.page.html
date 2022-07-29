@@ -1,9 +1,27 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-title>profile</ion-title>
-  </ion-toolbar>
-</ion-header>
+<div class="profile">
+  <div class="background">
+    <img class="detail" src="assets/img/grade.svg">
+  </div>
 
-<ion-content>
+  <header class="user">
+    <div class="user--avatar">
+      <img src="assets\img\icon1.jpg" alt="">
+    </div>
+    <div class="user--title">
+      <h1>Ana Bonfim</h1>
+      <h2>Economista</h2>
+    </div>
+    
+  </header>
 
-</ion-content>
+  <main>
+    <div class="container">
+      <h3>Notas públicas</h3>
+      <ng-container *ngFor="let post of postItArray">
+        <div class="profile-post">
+          <app-feed-item [postIt]="post"></app-feed-item>
+        </div>
+      </ng-container>
+    </div>
+  </main>
+</div>

@@ -7,7 +7,6 @@ import { IonicModule } from '@ionic/angular';
 import { FeedPageRoutingModule } from './feed-routing.module';
 
 import { FeedPage } from './feed.page';
-import { FeedItemComponent } from 'src/app/components/feed-item/feed-item.component';
 import { FeedItemModule } from 'src/app/components/feed-item/feed-item.module';
 
 @NgModule({

@@ -2,7 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 import { PostitModalComponent } from 'src/app/modals/postit-modal/postit-modal.component';
 import { PostItColorEnum } from 'src/app/models/enums/postit-color.enum';
+import { PostItPayload } from 'src/app/models/payloads/postit.payload';
 import { PostItProxy } from 'src/app/models/proxies/postit.proxy';
+import { __classPrivateFieldSet } from 'tslib';
 
 @Component({
   selector: 'app-home',
@@ -15,6 +17,7 @@ export class HomePage implements OnInit {
     public modalController: ModalController
   ) { }
 
+  
   public postItArray: PostItProxy[] = [
     {
       id: 0,
@@ -88,7 +91,9 @@ export class HomePage implements OnInit {
     });
   }
 
-  public async openNewPostModal(color: string): Promise<void> {
+  public async openNewPostModal(color: string, i: number): Promise<void> {
+    
+    const post = Array.from(document.getElementsByClassName('home--new-postit--item') as HTMLCollectionOf<HTMLElement>)
 
     const modal = await this.modalController.create({
       component: PostitModalComponent,
@@ -98,6 +103,7 @@ export class HomePage implements OnInit {
         color,
         create: true
       }
+    
     });
 
     await modal.present();
@@ -106,8 +112,11 @@ export class HomePage implements OnInit {
       if (postIt) {
         this.postItArray.push(postIt);
       }
+      post[i].classList.remove('home--new-postit--animation');
+
     });
-
+    post[i].classList.add('home--new-postit--animation');     
+    
   }
-
+  
 }

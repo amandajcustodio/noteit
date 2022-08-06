@@ -66,3 +66,43 @@
 .background-modal{
     --background: transparent;
 }
+
+@keyframes openPostIt {
+    10% {
+        transform: translateY(-5rem) translateX(-1rem) rotate(-11deg);
+        width: 13rem; 
+        height: 16rem;
+    }
+
+    25% {
+        transform: translateY(-10rem) translateX(-2rem) rotate(-8deg);
+        width: 14rem; 
+        height: 18rem;
+    }
+
+    50% {
+        transform: translateY(-15rem) translateX(-4rem) rotate(-6deg);
+        width: 15rem; 
+        height: 20rem;
+    }
+
+    100% {
+        transform: translateY(-65vh) translateX(-6.2vh) rotate(0deg);
+        width: 85vw;
+        height: 58vh;
+    }
+}
+
+@keyframes showPostIt {
+    0% {
+        opacity: 0;
+    }
+
+    15% {
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 1;
+    }
+}

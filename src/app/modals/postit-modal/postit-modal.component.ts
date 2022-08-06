@@ -2,7 +2,6 @@ import { Component, Input, OnInit } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 import { PostItColorEnum } from 'src/app/models/enums/postit-color.enum';
 import { PostItPayload } from 'src/app/models/payloads/postit.payload';
-import { PostItProxy } from 'src/app/models/proxies/postit.proxy';
 
 @Component({
   selector: 'app-postit-modal',
@@ -45,7 +44,7 @@ export class PostitModalComponent implements OnInit {
     this.modalController.dismiss({postit: this.postIt, isDeleted: true});
   }
 
-  public closeModal():void{
+  public closeModal(i: number):void{
     this.modalController.dismiss({isDeleted: false});
   }
 }

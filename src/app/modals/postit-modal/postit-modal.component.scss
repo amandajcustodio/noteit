@@ -8,10 +8,19 @@
     position: relative;
 
     width: 85vw;
-    height: 65vh;
+    height: 58vh;
     padding: 2rem;
+    margin-bottom: 7vh;
 
     color: #343434;
+
+    &--animation{
+        animation-name: showPostIt;
+        animation-duration: .5s;
+        animation-delay: 300ms;
+        animation-timing-function: linear;
+        animation-fill-mode: backwards;
+    }
 
     &--close, &--options {
         position: absolute;

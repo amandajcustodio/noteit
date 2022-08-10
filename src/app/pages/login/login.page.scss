@@ -97,7 +97,7 @@ app-half-circle-spinner{
   text-transform: capitalize;
   --box-shadow: none; 
 }
-.disable{
+.disabled, button[disabled]{
   opacity: .5;
   pointer-events: none;
 }

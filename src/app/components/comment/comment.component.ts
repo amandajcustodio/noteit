@@ -6,13 +6,10 @@ import { CommentProxy } from 'src/app/models/proxies/comment.proxy';
   templateUrl: './comment.component.html',
   styleUrls: ['./comment.component.scss'],
 })
-export class CommentComponent implements OnInit {
+export class CommentComponent{
 
   constructor() { }
 
   @Input()
   public comment: CommentProxy;
-
-  ngOnInit() {}
-
 }

@@ -1,70 +1,47 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 import { PostitModalComponent } from 'src/app/modals/postit-modal/postit-modal.component';
 import { PostItColorEnum } from 'src/app/models/enums/postit-color.enum';
-import { PostItPayload } from 'src/app/models/payloads/postit.payload';
 import { PostItProxy } from 'src/app/models/proxies/postit.proxy';
 import { __classPrivateFieldSet } from 'tslib';
+import { HelperService } from '../../../services/helper.service';
+import { NoteService } from '../../../services/note.service';
 
 @Component({
   selector: 'app-home',
   templateUrl: './home.page.html',
   styleUrls: ['./home.page.scss'],
 })
-export class HomePage implements OnInit {
+export class HomePage{
 
   constructor(
-    public modalController: ModalController
-  ) { }
+    private readonly modalController: ModalController,
+    private readonly note: NoteService,
+    private readonly helper: HelperService
+  ) {}
 
-  
-  public postItArray: PostItProxy[] = [
-    {
-      id: 0,
-      title: 'Título do Post0',
-      annotation: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse quis imperdiet sem. Suspendisse potenti. Curabitur eget nibh sed arcu cursus venenatis.',
-      color: PostItColorEnum.RED
-    },
-    {
-      id: 1,
-      title: 'Título do Post1',
-      annotation: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse quis imperdiet sem. Suspendisse potenti. Curabitur eget nibh sed arcu cursus venenatis.',
-      color: PostItColorEnum.PINK
-    },
-    {
-      id: 2,
-      title: 'Título do Post2',
-      annotation: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse quis imperdiet sem. Suspendisse potenti. Curabitur eget nibh sed arcu cursus venenatis.',
-      color: PostItColorEnum.GREEN
-    },
-    {
-      id: 3,
-      title: 'Título do Post3',
-      annotation: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse quis imperdiet sem. Suspendisse potenti. Curabitur eget nibh sed arcu cursus venenatis.',
-      color: PostItColorEnum.YELLOW
-    },
-    {
-      id: 4,
-      title: 'Título do Post4',
-      annotation: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse quis imperdiet sem. Suspendisse potenti. Curabitur eget nibh sed arcu cursus venenatis.',
-      color: PostItColorEnum.BLUE
-    },
-    {
-      id: 5,
-      title: 'Título do Post5',
-      annotation: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse quis imperdiet sem. Suspendisse potenti. Curabitur eget nibh sed arcu cursus venenatis.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse quis imperdiet sem. Suspendisse potenti. Curabitur eget nibh sed arcu cursus venenatis.',
-      color: PostItColorEnum.PURPLE
-    }
-  ];
+  public isLoading: boolean = false;
+
+  public postItArray: PostItProxy[] = [];
 
   public postItColorEnum: typeof PostItColorEnum = PostItColorEnum;
 
-  ngOnInit() {
-    console.log('postItColorEnum', this.postItColorEnum);
+  public async ionViewDidEnter(): Promise<void> {
+    await this.loadMyNotes();
   }
 
-  public consoleColor(color: string): void{
-    console.log("color", color);
+  public async loadMyNotes(): Promise<void> {
+    this.isLoading = true;
+    const [notes, errorMessage] = await this.note.getMyNotes();
+    this.isLoading = false;
+
+    if (errorMessage) return this.helper.showToast(errorMessage, 5_000);
+
+    this.postItArray = notes;
+  }
+
+  public consoleColor(color: string): void {
+    console.log('color', color);
   }
 
   public printPostIt(event: PostItProxy): void {
@@ -78,15 +55,17 @@ export class HomePage implements OnInit {
       cssClass: 'background-modal',
       backdropDismiss: true,
       componentProps: {
-        postIt
-      }
+        postIt,
+      },
     });
 
     await modal.present();
 
     modal.onDidDismiss().then(async ({ data }) => {
-      if(data.isDeleted){
-        this.postItArray = this.postItArray.filter(post => post.id !== data.postit.id);
+      if (data.isDeleted) {
+        this.postItArray = this.postItArray.filter(
+          (post) => post.id !== data.postit.id
+        );
       }
     });
   }
@@ -101,16 +80,16 @@ export class HomePage implements OnInit {
       backdropDismiss: true,
       componentProps: {
         color,
-        create: true
-      }
+        create: true,
+      },
     
     });
 
     await modal.present();
 
-    modal.onDidDismiss().then(async ({ data: postIt }) => {
-      if (postIt) {
-        this.postItArray.push(postIt);
+    modal.onDidDismiss().then(async ({ data }) => {
+      if (data.postIt) {
+        this.postItArray.push(data.postIt);
       }
       post[i].classList.remove('home--new-postit--animation');
 

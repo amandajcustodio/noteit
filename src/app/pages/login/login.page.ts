@@ -1,19 +1,22 @@
-import { Component} from '@angular/core';
-import { LoginPayload } from 'src/app/models/payloads/login.payload';
-import { RegistrationPayload } from 'src/app/models/payloads/registration.payload';
-import { HelperService } from 'src/app/services/helper.service';
+import { Component } from '@angular/core';
 import { Router } from '@angular/router';
+import { LoginPayload } from 'src/app/models/payloads/login.payload';
+import { HelperService } from 'src/app/services/helper.service';
+import { AuthService } from '../../services/auth.service';
+import { RegisterPayload } from '../../models/payloads/create-user.payload';
+import { error, protractor } from 'protractor';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.page.html',
   styleUrls: ['./login.page.scss'],
 })
-export class LoginPage{
+export class LoginPage {
 
   constructor(
     private readonly helper: HelperService,
     private readonly router: Router,
+    private readonly auth: AuthService,
   ) { }
 
   public loginPayload: LoginPayload = {
@@ -21,89 +24,82 @@ export class LoginPage{
     password: '',
   }
 
-  public regsPayload: RegistrationPayload ={ 
+  public registerPayload: RegisterPayload = {
     name: '',
     email: '',
-    confemail: '',
+    confEmail: '',
     password: '',
-    confpassword: '',
-  } 
+    confPassword: '',
+  }
 
   public isLoading: boolean = false;
 
   public isSigning: boolean = false;
 
-  public async login(): Promise<void>{
-    if(!this.canLogin())
-    return;
+  public async login(): Promise<void> {
+    if (!this.canLogin())
+      return;
 
     this.isLoading = true;
+    const [isSuccess, message] = await this.auth.login(this.loginPayload.email, this.loginPayload.password);
+    this.isLoading = false;
 
-    // toast (mensagem)
-    await this.helper.showToast('Carregando...');
+    if (isSuccess) {
+      return void await this.router.navigate(['/home']);
+    }
 
     // alert
-    await this.helper.showAlert('Hello', [
-      {
-        text: 'Ok',
-        handler: () => console.log('Ok!'),
-      },
-      {
-        text: 'Outro',
-        handler: () => console.log('Outro!'),
-      }
-    ]);
-
-    console.log(this.loginPayload);
-    await this.router.navigate(['/home']);
+    await this.helper.showToast(message, 5_000);
   }
 
-  public canLogin(): boolean{
+  public canLogin(): boolean {
     const regex = new RegExp('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$');
 
     const emailIsValid = regex.test(this.loginPayload.email);
 
-    if(emailIsValid && this.loginPayload.password.length >= 6)return true
+    if (emailIsValid && this.loginPayload.password.length >= 6)
+      return true;
 
-    return false
+    return false;
   }
 
-  public async newUser(): Promise<void>{
-    if(!this.canCreate())
-    return;
-
-    this.isLoading = true;
-
-    await this.helper.showToast('Gerando conta...');
-
-    await this.helper.showAlert('Pergunta', [
-      {
-        text: 'Confirmar',
-        handler: () => console.log('Confirmar'),
-      },
-      {
-        text: 'Cancelar',
-        handler: () => console.log('Cancelar')
-      }
-    ])
-
-    console.log(this.regsPayload);
-  }
-
-  public canCreate(): boolean{
+  public canRegister(): boolean {
     const regex = new RegExp('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$');
 
-    const emailIsValid = regex.test(this.regsPayload.email);
+    if(this.registerPayload.name.trim().length<=0)
+     return false;
 
-    if(emailIsValid && this.regsPayload.password.length >= 6){
-      if(this.regsPayload.email === this.regsPayload.confemail && this.regsPayload.password === this.regsPayload.confpassword)return true;
-    }
+    if(!regex.test(this.registerPayload.email))
+      return false;
 
-    return false
+    if(this.registerPayload.email !== this.registerPayload.confEmail)
+      return false;
+
+    if(this.registerPayload.password.length < 6)
+      return false;
+
+    if(this.registerPayload.password !== this.registerPayload.confPassword)
+      return false;
+
+    return true;
   }
-  
+
   public logoClick($event: boolean): void {
     console.log($event);
   }
-  
+
+  public async register(): Promise<void> {
+    if (!this.canRegister())
+      return;
+
+    this.isLoading = true;
+    const [isSuccess, message] = await this.auth.register(this.registerPayload);
+    this.isLoading = false;
+
+    if (isSuccess)
+      return void await this.router.navigate(['/home']);
+
+    // alert
+    await this.helper.showToast(message, 5_000);
+  }
 }

@@ -10,7 +10,6 @@ import { ProfilePage } from './profile.page';
 
 import { FeedItemModule } from 'src/app/components/feed-item/feed-item.module';
 
-
 @NgModule({
   imports: [
     CommonModule,

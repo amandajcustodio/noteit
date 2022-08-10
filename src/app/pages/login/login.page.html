@@ -8,14 +8,15 @@
 
     <header>
       <div class="logo" [class.signing--logo]="isSigning">
-        <img [class.hidden]="!isSigning" (click)="isSigning = !isSigning" src="assets/img/arrow-regs.svg">
+        <img [class.hidden]="!isSigning" (click)="isSigning = !isSigning" src="assets/img/arrow-regs.svg" alt="">
         <app-logo [class.signing--logo--img]="isSigning" src="assets/img/logo.svg" [full]="false" (onClick)="logoClick($event)"></app-logo>
+        <div class="empty"></div>
       </div>
-      <div class="empty"></div>
     </header>
-
+  
     <ng-template *ngIf="!isSigning" [ngTemplateOutlet]="signing" ></ng-template>
     <ng-template *ngIf="isSigning" [ngTemplateOutlet]="signup"></ng-template>
+  
 
   </div>
 </div>
@@ -23,19 +24,18 @@
 <ng-template #signing>
   <body class="login--inputs login--top">
 
-    <label for="signing-email" class="login--inputs--title">E-mail</label>
-    <input (keydown.enter)="password.focus()" class="login--inputs--email input-default" type="text"
-      [(ngModel)]="loginPayload.email" id="signing-email">
+    <label for="loginEmail" class="login--inputs--title">E-mail</label>
+    <input (keydown.enter)="password.focus()" class="login--inputs--email input-default" type="text" [(ngModel)]="loginPayload.email">
 
-    <label for="signing-pw" class="login--inputs--title">Senha</label>
+    <label for="loginPassword" class="login--inputs--title">Senha</label>
     <input #password (keydown.enter)="login()" class="login--inputs--password input-default" type="password"
-      [(ngModel)]="loginPayload.password" id="signingpw">
+      [(ngModel)]="loginPayload.password" id="loginPassword">
 
-    <ion-button [class.disable]="!canLogin()" class="button login--inputs--button" (click)="login()">
-      {{ isLoading ? 'Carregando' : 'Confirmar'}}
-      <app-half-circle-spinner *ngIf="isLoading" [animationDuration]="1000" [size]="30" [color]="'#fff'">
-      </app-half-circle-spinner>
-    </ion-button>
+      <ion-button class="button" [disabled]="isLoading || !canLogin()" (click)="login()">
+        {{ isLoading ? 'carregando...' : 'confirmar' }}
+        <app-half-circle-spinner *ngIf="isLoading" [animationDuration]="1000" [size]="25" [color]="'white'">
+        </app-half-circle-spinner>
+      </ion-button>
   </body>
 
   <footer class="login--footer">
@@ -47,13 +47,14 @@
 <ng-template #signup>
 
   <body class="login--inputs signup--top">
+
     <label for="name" class="login--inputs--title">Nome completo*</label>
     <input
     id="name" 
     (keydown.enter)="emailRegs.focus()" 
     class="login--inputs--email input-default" 
     type="text" 
-    [(ngModel)]="regsPayload.name" >
+    [(ngModel)]="registerPayload.name" >
 
     <label for="emailRegs" class="login--inputs--title">E-mail*</label>
     <input #emailRegs
@@ -61,7 +62,7 @@
     (keydown.enter)="confEmail.focus()" 
     class="login--inputs--password input-default" 
     type="text" 
-    [(ngModel)]="regsPayload.email">
+    [(ngModel)]="registerPayload.email">
 
     <label for="confEmail" class="login--inputs--title">Confirme o e-mail*</label>
     <input #confEmail 
@@ -69,7 +70,7 @@
     id="confEmail" 
     class="login--inputs--password input-default" 
     type="text"
-    [(ngModel)]="regsPayload.confEmail">
+    [(ngModel)]="registerPayload.confEmail">
 
     <label for="passwordRegs" class="login--inputs--title">Senha*</label>
     <input #passwordRegs
@@ -77,7 +78,7 @@
     id="passwordRegs" 
     class="login--inputs--password input-default" 
     type="password"
-    [(ngModel)]="regsPayload.passwordRegs">
+    [(ngModel)]="registerPayload.passwordRegs">
 
     <label for="confPassword" class="login--inputs--title">Confirme a senha*</label>
     <input #confPassword
@@ -85,18 +86,14 @@
     id="confPassword" 
     class="login--inputs--password input-default" 
     type="password"
-    [(ngModel)]="regsPayload.confPassword">
+    [(ngModel)]="registerPayload.confPassword">
 
     <span class="signup--required">*Campos obrigatórios</span>
     <span class="signup--required">Ao registrar-me, concordo com os termos de uso a Política de Privacidade do aplicativo.</span>
 
-    <ion-button [class.disable]="!canCreate()" class="button" (click)="isSigning = !isSigning">
-      {{ isLoading ? 'Gerando conta' : 'Criar conta'}}
-      <app-half-circle-spinner 
-        *ngIf="isLoading"
-        [animationDuration]="1000"
-        [size]="30"
-        [color]="'#fff'">
+    <ion-button class="button" [class.disabled]="!canRegister()" (click)="register()">
+      {{ isLoading ? 'carregando...' : 'Criar conta' }}
+      <app-half-circle-spinner *ngIf="isLoading" [animationDuration]="1000" [size]="25" [color]="'white'">
       </app-half-circle-spinner>
     </ion-button>
 

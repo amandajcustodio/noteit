@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { PostItColorEnum } from 'src/app/models/enums/postit-color.enum';
-import { PostItProxy } from 'src/app/models/proxies/postit.proxy';
+import { ActivatedRoute, Router } from '@angular/router';
+import { FeedPostItProxy } from 'src/app/models/proxies/feed-postit.proxy';
+import { HelperService } from 'src/app/services/helper.service';
+import { NoteService } from 'src/app/services/note.service';
 
 @Component({
   selector: 'app-feed-detail',
@@ -12,82 +13,57 @@ export class FeedDetailPage implements OnInit {
 
   constructor(
     private readonly activatedRoute: ActivatedRoute,
+    private readonly router: Router,
+    private readonly helper: HelperService,
+    private readonly note: NoteService
   ) {
     this.postItId = +this.activatedRoute.snapshot.params.id;
   }
 
-  public postItArray: PostItProxy[] = [
-    {
-      id: 0,
-      title: 'Título do Post0',
-      annotation: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse quis imperdiet sem. Suspendisse potenti. Curabitur eget nibh sed arcu cursus venenatis.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse quis imperdiet sem. Suspendisse potenti. Curabitur eget nibh sed arcu cursus venenatis.',
-      color: PostItColorEnum.GREEN,
-      comments: [
-        {
-          comment: 'Esse é um comentário simples',
-        },
-      ],
-    },
-    {
-      id: 1,
-      title: 'Título do Post1',
-      annotation: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse quis imperdiet sem. Suspendisse potenti. Curabitur eget nibh sed arcu cursus venenatis.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse quis imperdiet sem. Suspendisse potenti. Curabitur eget nibh sed arcu cursus venenatis.',
-      color: PostItColorEnum.YELLOW,
-      comments: [],
-    },
-    {
-      id: 2,
-      title: 'Título do post2',
-      annotation: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse quis imperdiet sem. Suspendisse potenti. Curabitur eget nibh sed arcu cursus venenatis.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse quis imperdiet sem. Suspendisse potenti. Curabitur eget nibh sed arcu cursus venenatis.',
-      color: PostItColorEnum.BLUE,
-      comments: [
-        {
-          comment: 'Muito legal seu post',
-        },
-        {
-          comment: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse quis imperdiet sem. Suspendisse potenti. Curabitur eget nibh sed arcu cursus venenatis. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse quis imperdiet sem. Suspendisse potenti. Curabitur eget nibh sed arcu cursus venenatis.',
-        }
-      ],
-    },
-    {
-      id: 3,
-      title: 'Título do post3',
-      annotation: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse quis imperdiet sem. Suspendisse potenti. Curabitur eget nibh sed arcu cursus venenatis.',
-      color: PostItColorEnum.PURPLE,
-      comments: [],
-    },
-    {
-      id: 4,
-      title: 'Título do post4',
-      annotation: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse quis imperdiet sem. Suspendisse potenti. Curabitur eget nibh sed arcu cursus venenatis.',
-      color: PostItColorEnum.RED,
-      comments: [],
-    },
-    {
-      id: 5,
-      title: 'Título do post4',
-      annotation: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse quis imperdiet sem. Suspendisse potenti. Curabitur eget nibh sed arcu cursus venenatis.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse quis imperdiet sem. Suspendisse potenti. Curabitur eget nibh sed arcu cursus venenatis.',
-      color: PostItColorEnum.PINK,      
-      comments: [],
-    }
-  ];
-
-  public postIt: PostItProxy;
+  public postIt: FeedPostItProxy;
+  public isLoading: boolean = false;
+  public commentText: string = '';
 
   private postItId: number = 0;
-  
-  public isLiked: boolean = false;
 
   public ngOnInit(): void {
     this.getPostIt();
   }
 
-  public getPostIt(): void {
-    this.postIt = this.postItArray.find(post => post.id === this.postItId);
+  public async getPostIt(): Promise<void> {
+    const [postit, message] = await this.note.get(this.postItId);
+
+    if (message) {
+      this.helper.showToast(message, 5_000);
+
+      return void this.router.navigateByUrl('/feed');
+    }
+
+    this.postIt = postit;
   }
 
-  public setLikeToPostIt(): void {
-    this.isLiked = !this.isLiked;
+  public async setLikeToPostIt(): Promise<void> {
+    this.isLoading = true;
+    const [, errorMessage] = await this.note.setLikeOnPostit(this.postIt);
+    this.isLoading = false;
+
+    if (errorMessage)
+      return this.helper.showToast(errorMessage, 5_000);
+
+    this.postIt.hasLiked = !this.postIt.hasLiked;
   }
 
+  public async sendComment(): Promise<void> {
+    this.isLoading = true;
+    const [comment, errorMessage] = await this.note.sendComment(this.postIt.id, this.commentText);
+    this.isLoading = false;
+
+    if (errorMessage)
+      return this.helper.showToast(errorMessage, 5_000);
+
+    comment.user = this.postIt.user;
+
+    this.commentText = '';
+    this.postIt.comments.push(comment);
+  }
 }

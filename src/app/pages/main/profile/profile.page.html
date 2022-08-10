@@ -1,23 +1,27 @@
-<div class="profile">
+<ion-content>
+<div class="profile" [class.settings-enable--profile]="isSettingsEnabled">
   <div class="background">
     <img class="detail" src="assets/img/grade.svg">
   </div>
 
   <header class="user">
     <div class="user--avatar">
-      <img src="assets\img\icon1.jpg" alt="">
+      <img [src]="myUser?.imageUrl || 'assets\img\icon1.jpg'">
     </div>
     <div class="user--title">
-      <h1>Ana Bonfim</h1>
-      <h2>Economista</h2>
+      <h1>{{ myUser?.name }}</h1>
+      <h2>{{ myUser?.role }}</h2>
     </div>
-    
+
+    <div class="menu">
+      <img id="hamburger" (click)="isSettingsEnabled = true" src="assets/imgs/hamburger_menu.svg" alt="">
+    </div>
   </header>
 
   <main>
     <div class="container">
       <h3>Notas públicas</h3>
-      <ng-container *ngFor="let post of postItArray">
+      <ng-container *ngFor="let post of MyPosts">
         <div class="profile-post">
           <app-feed-item [postIt]="post"></app-feed-item>
         </div>
@@ -25,3 +29,7 @@
     </div>
   </main>
 </div>
+</ion-content>
+
+
+<div class="brightness" [class.settings-enable--brightness]="isSettingsEnabled"></div>

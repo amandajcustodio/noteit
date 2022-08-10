@@ -1,45 +1,68 @@
-import { Component, OnInit } from '@angular/core';
-import { PostItColorEnum } from 'src/app/models/enums/postit-color.enum';
-import { PostItProxy } from 'src/app/models/proxies/postit.proxy';
+import { Component, Input } from '@angular/core';
+import { Router } from '@angular/router';
+import { ProfileSettingsEnum } from 'src/app/models/enums/profile-settings.enum';
+import { FeedPostItProxy } from 'src/app/models/proxies/feed-postit.proxy';
+import { AuthService } from 'src/app/services/auth.service';
+import { HelperService } from 'src/app/services/helper.service';
+import { NoteService } from 'src/app/services/note.service';
+import { environment } from 'src/environments/environment';
+import { PostItProxy } from '../../../models/proxies/postit.proxy';
+import { UserProxy } from '../../../models/proxies/user.proxy';
 
 @Component({
   selector: 'app-profile',
   templateUrl: './profile.page.html',
   styleUrls: ['./profile.page.scss'],
 })
-export class ProfilePage implements OnInit {
+export class ProfilePage{
 
-  constructor() { }
+  constructor(
+    private router: Router,
+    private readonly noteService: NoteService,
+    private readonly helper: HelperService,
+  ) { }
 
-  public postItArray: PostItProxy[] = [
-    {
-      id: 0,
-      title: 'Teste',
-      annotation: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse quis imperdiet sem. Suspendisse potenti. Curabitur eget nibh sed arcu cursus venenatis.',
-      color: PostItColorEnum.RED
-    },
-    {
-      id: 1,
-      title: 'Título do Post1',
-      annotation: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse quis imperdiet sem. Suspendisse potenti. Curabitur eget nibh sed arcu cursus venenatis.',
-      color: PostItColorEnum.PINK
-    },
-    {
-      id: 2,
-      title: 'Título do Post2',
-      annotation: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse quis imperdiet sem. Suspendisse potenti. Curabitur eget nibh sed arcu cursus venenatis.',
-      color: PostItColorEnum.GREEN
-    },
-    {
-      id: 3,
-      title: 'Título do Post3',
-      annotation: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse quis imperdiet sem. Suspendisse potenti. Curabitur eget nibh sed arcu cursus venenatis.',
-      color: PostItColorEnum.YELLOW
-    },
+  @Input()
+  public MyPosts: PostItProxy[] = [];
 
-  ];
+  public isSettingsEnabled: boolean = false;
 
-  ngOnInit() {
+  public myUser: UserProxy;
+
+  public loading: boolean = false;
+
+  public post: FeedPostItProxy[];
+
+  public profileSettingsEnum: typeof ProfileSettingsEnum = ProfileSettingsEnum;
+
+  public async ionViewDidEnter(): Promise<void> {
+    this.loading = true;
+    const [note, message] = await this.noteService.getMyFeedNotes();
+    const success = JSON.parse(localStorage.getItem(environment.keys.user));
+    this.loading = false;
+
+    if (!success) {
+      this.helper.showToast('Erro ao carregar usuário.')
+    }
+
+    if (!note) {
+      return void this.helper.showToast(message);
+    }
+
+    this.post = note;
+    this.myUser = success;
+  }
+
+  public async clickConfigList(selectedSettings: ProfileSettingsEnum): Promise<void> {
+
+    if(selectedSettings === ProfileSettingsEnum.EXIT){
+      localStorage.clear();
+      return void await this.router.navigate(['/login']);
+    }
+
+    if(selectedSettings === ProfileSettingsEnum.ABOUT_US){
+      return void this.helper.showToast('NoteIt - Bootcamp LIGA', 5_000)
+    }
   }
 
 }

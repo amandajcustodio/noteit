@@ -87,6 +87,13 @@
             animation-timing-function: linear;
             animation-fill-mode: forwards;
         }
+        &--animation--close{
+            animation-name: openPostIt;
+            animation-duration: 200ms;
+            animation-timing-function: linear;
+            animation-fill-mode: backwards;
+            animation-direction: reverse;
+        }
 
     }
 }

@@ -91,11 +91,13 @@ export class HomePage{
       if (data.postIt) {
         this.postItArray.push(data.postIt);
       }
-      post[i].classList.remove('home--new-postit--animation');
+
+      post[i].classList.remove('home--new-postit--animation'); 
 
     });
-    post[i].classList.add('home--new-postit--animation');     
-    
+
+    post[i].classList.add('home--new-postit--animation'); 
+   
   }
   
 }

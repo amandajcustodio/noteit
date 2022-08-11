@@ -2,7 +2,6 @@ import { Component, Input } from '@angular/core';
 import { Router } from '@angular/router';
 import { ProfileSettingsEnum } from 'src/app/models/enums/profile-settings.enum';
 import { FeedPostItProxy } from 'src/app/models/proxies/feed-postit.proxy';
-import { AuthService } from 'src/app/services/auth.service';
 import { HelperService } from 'src/app/services/helper.service';
 import { NoteService } from 'src/app/services/note.service';
 import { environment } from 'src/environments/environment';
@@ -42,7 +41,7 @@ export class ProfilePage{
     this.loading = false;
 
     if (!success) {
-      this.helper.showToast('Erro ao carregar usuário.')
+      this.helper.showToast('Erro ao carregar usuário.');
     }
 
     if (!note) {
@@ -53,15 +52,19 @@ export class ProfilePage{
     this.myUser = success;
   }
 
+  // Hamburger menu itens
   public async clickConfigList(selectedSettings: ProfileSettingsEnum): Promise<void> {
 
+    if(selectedSettings === ProfileSettingsEnum.EDIT_PROFILE){
+      console.log(this.myUser)
+    }
     if(selectedSettings === ProfileSettingsEnum.EXIT){
       localStorage.clear();
       return void await this.router.navigate(['/login']);
     }
 
     if(selectedSettings === ProfileSettingsEnum.ABOUT_US){
-      return void this.helper.showToast('NoteIt - Bootcamp LIGA', 5_000)
+      return void this.helper.showToast('Projeto Bootcamp LIGA - 2022', 5_000)
     }
   }
 

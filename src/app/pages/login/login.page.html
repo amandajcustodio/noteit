@@ -78,7 +78,7 @@
     id="passwordRegs" 
     class="login--inputs--password input-default" 
     type="password"
-    [(ngModel)]="registerPayload.passwordRegs">
+    [(ngModel)]="registerPayload.password">
 
     <label for="confPassword" class="login--inputs--title">Confirme a senha*</label>
     <input #confPassword
@@ -91,7 +91,7 @@
     <span class="signup--required">*Campos obrigatórios</span>
     <span class="signup--required">Ao registrar-me, concordo com os termos de uso a Política de Privacidade do aplicativo.</span>
 
-    <ion-button class="button" [class.disabled]="!canRegister()" (click)="register()">
+    <ion-button class="button" [class.disabled]="!canRegister()" (click)="newUser()">
       {{ isLoading ? 'carregando...' : 'Criar conta' }}
       <app-half-circle-spinner *ngIf="isLoading" [animationDuration]="1000" [size]="25" [color]="'white'">
       </app-half-circle-spinner>

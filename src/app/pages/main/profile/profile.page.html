@@ -1,35 +1,66 @@
 <ion-content>
-<div class="profile" [class.settings-enable--profile]="isSettingsEnabled">
-  <div class="background">
-    <img class="detail" src="assets/img/grade.svg">
+  <div class="profile" [class.settings-enable--profile]="isSettingsEnabled">
+
+    <div class="background">
+      <img src="assets/img/grade.svg" class="detail">
+    </div>
+
+    <div class="container">
+      <header class="profile--user">
+        <div class="profile--user--avatar">
+          <img [src]="myUser?.imageUrl || 'assets/img/icon1.jpg'">
+        </div>
+
+        <div class="profile--user--title">
+          <h1 class=""><b>{{ myUser?.name }}</b></h1>
+          <h2 class=""><b>{{ myUser?.role }}</b></h2>
+        </div>
+
+      <div class="profile--user--menu">
+        <img id="hamburger" (click)="isSettingsEnabled = true" src="assets/img/hamburger-menu.svg" alt="">
+      </div>
+
+      </header>
+
+      <main class="profile--container">
+        <h3><b>NOTAS PÚBLICAS</b></h3>
+
+      <div class="profile--container--post">
+        <ng-container *ngFor="let postit of post">
+          <app-feed-item [postIt]="postit"></app-feed-item>
+        </ng-container>
+      </div>
+      </main>
+        
+    </div>
   </div>
+</ion-content>
 
-  <header class="user">
-    <div class="user--avatar">
-      <img [src]="myUser?.imageUrl || 'assets\img\icon1.jpg'">
-    </div>
-    <div class="user--title">
-      <h1>{{ myUser?.name }}</h1>
-      <h2>{{ myUser?.role }}</h2>
-    </div>
+<section
+  class="config"
+  [class.settings-enable]="isSettingsEnabled">
+  <header>
 
-    <div class="menu">
-      <img id="hamburger" (click)="isSettingsEnabled = true" src="assets/imgs/hamburger_menu.svg" alt="">
-    </div>
+    <ion-icon class="config--backbutton"
+     name="arrow-back-outline"
+     (click)="isSettingsEnabled = false"
+     ></ion-icon>
+
+    <span><b>Ajustes</b></span>
   </header>
 
-  <main>
-    <div class="container">
-      <h3>Notas públicas</h3>
-      <ng-container *ngFor="let post of MyPosts">
-        <div class="profile-post">
-          <app-feed-item [postIt]="post"></app-feed-item>
-        </div>
-      </ng-container>
-    </div>
-  </main>
-</div>
-</ion-content>
+  <div class="config--list">
+  <p (click)="clickConfigList(profileSettingsEnum.EDIT_PROFILE)">Editar perfil</p>
+  <p (click)="clickConfigList(profileSettingsEnum.EDIT_PROFILE_PICTURE)">Editar foto de perfil</p>
+  <p (click)="clickConfigList(profileSettingsEnum.EXIT)">Sair</p>
+  <p (click)="clickConfigList(profileSettingsEnum.ABOUT_US)">Sobre nós</p>
+  </div>
+
+  <footer>
+    <img src="assets/img/logo.svg" alt="">
+  </footer>
+
+</section>
 
 
 <div class="brightness" [class.settings-enable--brightness]="isSettingsEnabled"></div>

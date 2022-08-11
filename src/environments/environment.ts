@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  apiBaseUrl: 'https://note-it-bootcamp.herokuapp.com/',
+  apiBaseUrl: 'https://note-it-bootcamp.herokuapp.com',
   keys: {
     token: '@post-it/token',
     user: '@post-it/user',

@@ -8,7 +8,7 @@
       <ng-container *ngFor="let post of postItArray">
         <app-postit (postItSelected)="printPostIt($event)" 
                     [postIt]="post"
-                    (click)="toggleCentered(post); openPostModal(post)"></app-postit> 
+                    (click)="openPostModal(post)"></app-postit> 
       </ng-container>
     </main>
   

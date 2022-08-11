@@ -10,7 +10,7 @@
     <div *ngIf="postIt" class="feed-item" [style.background-color]="postIt.color">
       <header>
         <ion-avatar class="user--avatar">
-          <img [src]="postIt.user?.imageUrl || 'assets\img\icon1.jpg'" />
+          <img [src]="postIt.user?.imageUrl || 'assets/img/icon1.jpg'" />
         </ion-avatar>
         <div class="user--info">
           <span class="user--info--name">{{ postIt.user?.name }}</span>
@@ -33,7 +33,7 @@
           <input [(ngModel)]="commentText" type="text" placeholder="Inserir comentário" />
           <button type="button" [disabled]="isLoading" (click)="sendComment()">Publicar</button>
         </div>
-        <div class="actions--section">
+        <div class="action--section">
           <svg
           class="heart"
           (click)="setLikeToPostIt()"

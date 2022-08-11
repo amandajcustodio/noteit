@@ -88,7 +88,7 @@ export class LoginPage {
     console.log($event);
   }
 
-  public async register(): Promise<void> {
+  public async newUser(): Promise<void> {
     if (!this.canRegister())
       return;
 

@@ -4,7 +4,6 @@ import { LoginPayload } from 'src/app/models/payloads/login.payload';
 import { HelperService } from 'src/app/services/helper.service';
 import { AuthService } from '../../services/auth.service';
 import { RegisterPayload } from '../../models/payloads/create-user.payload';
-import { error, protractor } from 'protractor';
 
 @Component({
   selector: 'app-login',

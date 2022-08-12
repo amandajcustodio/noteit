@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ProfileSettingsEnum } from 'src/app/models/enums/profile-settings.enum';
 import { FeedPostItProxy } from 'src/app/models/proxies/feed-postit.proxy';
@@ -13,16 +13,21 @@ import { UserProxy } from '../../../models/proxies/user.proxy';
   templateUrl: './profile.page.html',
   styleUrls: ['./profile.page.scss'],
 })
-export class ProfilePage{
+export class ProfilePage {
 
+  //#region Constructor
   constructor(
     private router: Router,
     private readonly noteService: NoteService,
     private readonly helper: HelperService,
-  ) { }
+  ) {}
+
+  //#endregion
+
+  //#region Public Properties
 
   @Input()
-  public MyPosts: PostItProxy[] = [];
+  public myPostits: PostItProxy[] = [];
 
   public isSettingsEnabled: boolean = false;
 
@@ -34,14 +39,19 @@ export class ProfilePage{
 
   public profileSettingsEnum: typeof ProfileSettingsEnum = ProfileSettingsEnum;
 
+  //#endregion
+
+  //#region Public Methods
   public async ionViewDidEnter(): Promise<void> {
     this.loading = true;
     const [note, message] = await this.noteService.getMyFeedNotes();
+
+    // TODO: IMPLEMENTAR GETME
     const success = JSON.parse(localStorage.getItem(environment.keys.user));
     this.loading = false;
 
     if (!success) {
-      this.helper.showToast('Erro ao carregar usuário.');
+      this.helper.showToast('Erro ao carregar usuário.')
     }
 
     if (!note) {
@@ -52,12 +62,8 @@ export class ProfilePage{
     this.myUser = success;
   }
 
-  // Hamburger menu itens
   public async clickConfigList(selectedSettings: ProfileSettingsEnum): Promise<void> {
 
-    if(selectedSettings === ProfileSettingsEnum.EDIT_PROFILE){
-      console.log(this.myUser)
-    }
     if(selectedSettings === ProfileSettingsEnum.EXIT){
       localStorage.clear();
       return void await this.router.navigate(['/login']);
@@ -67,5 +73,7 @@ export class ProfilePage{
       return void this.helper.showToast('Projeto Bootcamp LIGA - 2022', 5_000)
     }
   }
+
+  //#endregion
 
 }

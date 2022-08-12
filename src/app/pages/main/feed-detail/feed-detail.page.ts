@@ -61,7 +61,7 @@ export class FeedDetailPage implements OnInit {
     if (errorMessage)
       return this.helper.showToast(errorMessage, 5_000);
 
-    comment.user = this.postIt.user;
+      comment.user = this.postIt.user;
 
     this.commentText = '';
     this.postIt.comments.push(comment);

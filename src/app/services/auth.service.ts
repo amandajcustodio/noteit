@@ -30,7 +30,6 @@ export class AuthService {
 
     return [true, `Bem-vindo de volta!`];
   }
-
   public async register(payload: CreateUserPayload): Promise<AsyncResult<boolean>> {
     const [user, error] = await this.http.post<UserProxy>(apiRoutes.users.create, payload);
 

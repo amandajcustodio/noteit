@@ -36,7 +36,7 @@
       }
     }
 
-    .read--more {
+    .read-more {
       width: 5rem;
       height: 2rem;
       background: none;
@@ -64,11 +64,15 @@
       -webkit-line-clamp: 8;
       line-clamp: 8;
     }
+
+    .comment-item {
+      margin-bottom: 1rem;
+    }
   }
 
-  .footer {
-    display: flex;
-    flex-direction: row;
+  footer {
+    display: grid;
+    grid-template-columns: 1fr 5rem;
 
     .comment--section {
       flex: 1;
@@ -78,7 +82,6 @@
       border-radius: 1rem;
       border: 1px solid #000;
       padding: 0 0.4rem;
-      max-width: 100%;
 
       input {
         background: transparent;
@@ -98,6 +101,7 @@
   .action--section {
     display: flex;
     align-items: center;
+    justify-content: space-evenly;
     margin-left: .5rem;
     
     img {
